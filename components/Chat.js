@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Text, View, StyleSheet, FlatList, TextInput, Button} from 'react-native';
 import { MessageItem } from './MessageItem';
+import {chatActions} from '../actions';
 
 @connect (({chat:
                 {user,
@@ -11,6 +12,10 @@ import { MessageItem } from './MessageItem';
 }) => ({user, room, messages, error}))
 export class Chat extends React.Component {
 
+state = {
+    content: ''
+}
+
 getData() {
     const {messages } = this.props;
     return messages.map((message, i) => ({
@@ -18,8 +23,24 @@ getData() {
     }));
 }
 
+handleContentChange = content => {
+    this.setState({content});
+}
+
+handleSendPress = e => {
+    const {dispatch} = this.props;
+    const {content} = this.state;
+    if(content != '') 
+    {
+        dispatch(chatActions.sendMessage({content}));
+    }
+    this.setState({content: ''});
+}
+
+
     render() {
         const {user, error} = this.props;
+        const {content} = this.state;
 
         return (
             <View style = {styles.container}>              
@@ -37,11 +58,15 @@ getData() {
                     <TextInput
                       
                         style={styles.composerInput}
-                        placeholder="Saisir un message"
+                        placeholder="Write something"
+                        value={content}
+                        onChangeText={this.handleContentChange}
                     />
 
                     <Button
-                    title="Envoyer !"                   
+                    title="Send"   
+                    onPress={this.handleSendPress} 
+                    disabled={content ==''}               
                     />
                 </View>              
 

@@ -1,6 +1,6 @@
 import PouchDB from 'pouchdb-react-native';
 
-let db, user,room = null;
+let db, currentUser, currentroom = null;
 
 export const chatService = {
     join,
@@ -8,21 +8,23 @@ export const chatService = {
 }
 
     function join(user, room){
-        user = user || 'Anonymous';
-        room = room || 'général';
-        db = new PouchDB(room);
+        currentUser = user || 'Anonymous';
+        currentroom = room || 'général';
+        db = new PouchDB(currentroom);
 
         return db.allDocs({
             include_docs: true,
         }).then(response =>
-            response.rows.map(row => row.doc)
+            response.rows
+            .map(row => row.doc)
+            .sort((a,b) => a.created_at > b.created_at)
             );
         }
 
     function sendMessage(message) {
         message = {
             ...message,
-             user,
+             author: currentUser,
              created_at: new Date()
             };
         return db.post(message).then(({id}) => ({

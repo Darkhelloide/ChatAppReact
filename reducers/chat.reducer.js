@@ -36,6 +36,15 @@ export const chat = function(state = initState, action) {
                 messages: action.messages,
                 error: null
             };  
+
+        case 'SEND_MESSAGE_SUCCESS':
+            return {
+                ...state,
+                messages: [
+                    ...state.messages,
+                    action.message
+                ]
+            }
             
         case 'FAILURE':
             return {
