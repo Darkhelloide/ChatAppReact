@@ -1,11 +1,56 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Button, TextInput} from 'react-native';
+import {Actions} from 'react-native-router-flux'
 
 export class Home extends React.Component {
+
+    state={
+        user: '',
+        room: ''
+    }
+
+    handleUserChange = user => {
+        this.setState({user});
+    }
+
+    handleRoomChange = room => {
+        this.setState({room});
+    }
+
+    handleChatPress = e => {
+        const {user, room} = this.state;
+        Actions.chat({user, title: `Salon "${room}"`});
+    }
+
     render() {
+        const {user} = this.state;
+        const {room} = this.state;
+
         return (
             <View style = {styles.container}>
-                <Text style = {[styles.h1, styles.big]}>Homepage !!</Text>
+                <Text style = {styles.h1}>Bienvenue !</Text>
+
+                <Text style = {styles.label}>Nom d'utilisateur</Text>
+
+                <TextInput
+                    value={user}
+                    onChangeText={this.handleUserChange}
+                    style={styles.input}
+                    placeholder=" Choississez un pseudo"
+                />
+
+                <Text style = {styles.label}>Salon</Text>
+                <TextInput
+                    value={room}
+                    onChangeText={this.handleRoomChange}
+                    style={styles.input}
+                    placeholder="Salon de chat"
+                />
+
+                <Button
+                    title="Let's chat !"
+                    onPress={this.handleChatPress}
+                />
             </View>
             
         );
@@ -15,15 +60,33 @@ export class Home extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#CCC',
       alignItems: 'center',
       justifyContent: 'center',
+      padding: 8
     },
     h1:{
-        color: 'red'
+        fontSize: 20
+    },
+    label: {
+        alignSelf: 'flex-start',
+        marginTop: 16,
+        textAlign: 'left'
     },
     big:{
         fontSize: 20,
         color: 'blue'
+    },
+    input: {
+        backgroundColor: "white",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "black",
+        margin: 8,
+        padding: 4,
+        width: '100%'
+    },
+    button: {
+        backgroundColor: "red"
     }
   });
