@@ -1,31 +1,30 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Text, View, StyleSheet, FlatList, TextInput, Button} from 'react-native';
 import { MessageItem } from './MessageItem';
 
+@connect (({chat:
+                {user,
+                room,
+                messages}
+}) => ({user, room, messages}))
 export class Chat extends React.Component {
+
+getData() {
+    const {messages } = this.props;
+    return messages.map((message, i) => ({
+        ...message, key: `message_${i}`
+    }));
+}
+
     render() {
         const {user, room} = this.props;
-        const messages = [
-            {
-                content: 'Y a trop de trucs qui m\'enervent sur Terre',
-                author: 'Robert',
-                created_at: new Date()
-            },{
-                content: 'Les chomeurs sans travails, les orphelins sans pères',
-                author: 'Amelie',
-                created_at: new Date()
-            },{
-                content: 'Et tu parles fort',
-                author: 'Robert',
-                created_at: new Date()
-            }
-        ];
 
         return (
             <View style = {styles.container}>
                 
                 <FlatList style={styles.list}
-                    data={messages.map((message,i) => ({ ...message, key: `message_${i}`}))}
+                    data={this.getData()}
                     renderItem={({ item: message})=>
                         <MessageItem user={user} message={message} />
                     }                
