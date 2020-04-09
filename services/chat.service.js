@@ -3,7 +3,8 @@ import PouchDB from 'pouchdb-react-native';
 let db, user,room = null;
 
 export const chatService = {
-    join
+    join,
+    sendMessage
 }
 
     function join(user, room){
@@ -17,4 +18,16 @@ export const chatService = {
             response.rows.map(row => row.doc)
             );
         }
+
+    function sendMessage(message) {
+        message = {
+            ...message,
+             user,
+             created_at: new Date()
+            };
+        return db.post(message).then(({id}) => ({
+            ...message,
+            id
+        }));
+    }
 
