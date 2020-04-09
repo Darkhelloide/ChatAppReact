@@ -2,21 +2,8 @@
 const initState = {
     user: "Robert",
     room: null,
-    messages: [
-        {
-            content: 'Y a trop de trucs qui m\'enervent sur Terre',
-            author: 'Robert',
-            created_at: new Date()
-        },{
-            content: 'Les chomeurs sans travails, les orphelins sans pères',
-            author: 'Amelie',
-            created_at: new Date()
-        },{
-            content: 'Et tu parles fort',
-            author: 'Robert',
-            created_at: new Date()
-        }
-    ]
+    messages: [],
+    error: undefined
 }
 
 export const chat = function(state = initState, action) {
