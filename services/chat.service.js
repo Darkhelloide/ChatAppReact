@@ -1,25 +1,20 @@
 import PouchDB from 'pouchdb-react-native';
 
-class Chat{
+let db, user,room = null;
 
-    user = null;
-    room = null;
-    db = null;
-
-    async join(user, room){
-        this.user = user || 'Anonymous';
-        this.room = room || 'général';
-try{
-        this.db = new PouchDB();
-        const response = await this.db.allDocs({
-            include_docs: true,
-        });
-
-        return response.rows.map(row => row.doc);
-        } catch(e){
-            console.error(e);
-        }
-    }
+export const chatService = {
+    join
 }
 
-export const chatService = new Chat();
+    function join(user, room){
+        user = user || 'Anonymous';
+        room = room || 'général';
+        db = new PouchDB(room);
+
+        return db.allDocs({
+            include_docs: true,
+        }).then(response =>
+            response.rows.map(row => row.doc)
+            );
+        }
+

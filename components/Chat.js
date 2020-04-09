@@ -6,8 +6,9 @@ import { MessageItem } from './MessageItem';
 @connect (({chat:
                 {user,
                 room,
-                messages}
-}) => ({user, room, messages}))
+                messages,
+                error}
+}) => ({user, room, messages, error}))
 export class Chat extends React.Component {
 
 getData() {
@@ -18,11 +19,13 @@ getData() {
 }
 
     render() {
-        const {user, room} = this.props;
+        const {user, error} = this.props;
 
         return (
-            <View style = {styles.container}>
-                
+            <View style = {styles.container}>              
+                {error &&
+                <Text>Error: {error.message}</Text>
+                }
                 <FlatList style={styles.list}
                     data={this.getData()}
                     renderItem={({ item: message})=>
