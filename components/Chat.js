@@ -39,7 +39,7 @@ export class Chat extends React.Component {
                     />
 
                     <Button
-                    title="Envoyer"                   
+                    title="Envoyer !"                   
                     />
                 </View>              
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'redux';
 import {Text, View, StyleSheet, Button, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 
@@ -19,6 +20,7 @@ export class Home extends React.Component {
 
     handleChatPress = e => {
         const {user, room} = this.state;
+
         Actions.chat({user, title: `Salon "${room}"`});
     }
 
