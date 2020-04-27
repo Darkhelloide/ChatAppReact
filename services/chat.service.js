@@ -15,7 +15,7 @@ export const chatService = {
             onFail('Le nom du salon ne peut pas commencer par "_"');
         }
         currentUser = user || 'Anonymous';
-        currentroom = room.toLowerCase() || 'général';
+        currentroom = room.toLowerCase() || 'general';
         db = new PouchDB(currentroom);
 
  //       return db.allDocs({
@@ -48,7 +48,10 @@ export const chatService = {
     function handleChange(callback){
         return change => {
             console.log('change', change);
-            callback(change);
+            listMessages()
+            .then(messages => callback(messages))
+            .catch(console.error);
+            
         }
     }    
 

@@ -16,6 +16,8 @@ state = {
     content: ''
 }
 
+listEl = React.createRef();
+
 getData() {
     const {messages } = this.props;
     return messages.map((message, i) => ({
@@ -51,7 +53,10 @@ handleSendPress = e => {
                     data={this.getData()}
                     renderItem={({ item: message})=>
                         <MessageItem user={user} message={message} />
-                    }                
+                    }    
+                    ref= {ref => this.listEl = ref}
+                    onContentSizeChange={() => this.listEl.scrollToEnd({animated:true})}
+                    onLayout={() => this.listEl.scrollToEnd({animated:true})}            
                 />
 
                 <View style={styles.composerContainer}>

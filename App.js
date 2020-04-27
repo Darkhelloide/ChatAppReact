@@ -7,6 +7,8 @@ import {Router, Stack, Scene} from 'react-native-router-flux';
 import {Home, Chat} from './components';
 import thunk from 'redux-thunk';
 
+console.ignoredYellowBox = ['Setting a timer'];
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default class App extends React.Component {
