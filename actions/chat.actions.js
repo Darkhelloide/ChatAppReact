@@ -8,7 +8,10 @@ export const chatActions = {
 function join(user, room) {
     return dispatch => {
         dispatch(request(user, room));
-        chatService.join(user, room)
+        chatService.join(user, room,
+            messages => dispatch(syncSuccess(messages)),
+            error => dispatch(syncFailure(error))
+            )
         .then(messages => dispatch(success(messages)))
         .catch(error => dispatch(failure(error)));
     };
@@ -20,6 +23,12 @@ function join(user, room) {
     function failure(error) 
     {return {type: 'FAILURE', error}
     };
+    function syncSuccess(messages) {
+        return {type: 'SYNC_SUCCESS', messages};
+    }
+    function syncFailure(error) {
+        return {type: 'SYNC_FAILURE', error};
+    }    
 }
 
 function sendMessage(message) {
